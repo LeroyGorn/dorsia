@@ -1,10 +1,9 @@
 from auth_user.forms import SignUpForm
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.views.generic import View
-from django.contrib import messages
 
 
 class SignUpView(View):

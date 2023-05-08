@@ -140,6 +140,8 @@ html, body {
   position: absolute;
   width: 100%;
   z-index: 2;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 #chat-wrapper #chat-message-window #message-input-wrapper #message-input {
   left: 50%;
@@ -204,13 +206,15 @@ html, body {
   width: 100%;
   z-index: 1;
 }
+
 #chat-wrapper #chat-message-window #chat-message-column-wrapper #chat-message-column {
   bottom: 0px;
   left: 0px;
+  max-height: 100%;
   min-height: 70px;
   margin-bottom: 70px;
-  overflow: hidden;
   padding: 20px 20px 0px 20px;
+  overflow: hidden auto;
   width: calc(100% - 40px);
 }
 #chat-wrapper #chat-message-window #chat-message-column-wrapper #chat-message-column.static {

@@ -31,12 +31,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'ec2-18-215-177-109.compute-1.amazonaws.com',
-    # 'localhost',
-    # '127.0.0.1',
-    '172.31.91.74'
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -101,7 +96,8 @@ DB_DIR = os.path.join(BASE_DIR, 'chroma')
 chroma_client = chromadb.Client(Settings(
     chroma_db_impl="duckdb+parquet",
     persist_directory=DB_DIR,
-    anonymized_telemetry=False
+    anonymized_telemetry=False,
+
 ))
 
 
@@ -145,12 +141,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 AUTH_USER_MODEL = 'auth_user.CustomUser'
 
 LOGIN_REDIRECT_URL = 'chat'
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

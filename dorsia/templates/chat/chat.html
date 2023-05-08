@@ -17,7 +17,7 @@
         <div id="message-input-wrapper">
           <div id="message-input">
               {% csrf_token %}
-                    <input id="message-input-field" name="message" type="text" placeholder="Type a message" maxlength="100" />
+                    <input name="message" id="message-input-field" placeholder="Type a message, write shortly. Max symbols 500" maxlength="500"/>
                     <button id="send-message-button" type="submit"><i class="far fa-arrow-alt-circle-right"></i></button>
           </div>
         </div>
