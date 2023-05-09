@@ -363,13 +363,10 @@ const enableInputField = () => {
 }
 
 const getChatbotMessageText = (text) => {
+  if (text === ''){
+    return getRandGreeting()
+  }
   return text;
-  // if(STATE.chatbotMessageIndex === 0){
-  //   return getRandGreeting()
-  // }
-  // else{
-  //   return getRandConvo()
-  // }
 }
 
 const sendChatbotMessage = (message) => {

@@ -10,14 +10,19 @@ $(window).on("load", function() {
 
     for (let i = 0; i < user_history.length; i++) {
       const message = messageGenerator.next().value;
-      if (i % 2 == 0) {
-          setTimeout(function() {
-            UserQuestionSend(message);
-          }, i * 1000);
+      console.log(message)
+      if (message === ''){
+          sendChatbotMessage('');
       } else {
-         setTimeout(function() {
-          sendChatbotMessage(message);
-        }, i * 1000);
+          if (i % 2 == 0) {
+              setTimeout(function () {
+                  UserQuestionSend(message);
+              }, i * 1000);
+          } else {
+              setTimeout(function () {
+                  sendChatbotMessage(message);
+              }, i * 1000);
+          }
       }
     }
     function sendMessage() {

@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
-import chromadb
-from chromadb.config import Settings
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 
@@ -29,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -93,13 +91,6 @@ DATABASES = {
 
 DB_DIR = os.path.join(BASE_DIR, 'chroma')
 
-chroma_client = chromadb.Client(Settings(
-    chroma_db_impl="duckdb+parquet",
-    persist_directory=DB_DIR,
-    anonymized_telemetry=False,
-
-))
-
 
 openai = ChatOpenAI(temperature=0.2, model_name="gpt-3.5-turbo", openai_api_key=os.environ['OPENAI_API_KEY'])
 
@@ -141,8 +132,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 AUTH_USER_MODEL = 'auth_user.CustomUser'
 
