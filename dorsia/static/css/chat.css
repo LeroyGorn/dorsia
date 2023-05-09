@@ -16,6 +16,36 @@ html, body {
 .scroll-bar::-webkit-scrollbar-thumb {
   background-color: #5a5a5a;
 }
+#chat-bot-greetings {
+    padding: 20px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    white-space: nowrap;
+    z-index: 10;
+}
+#user-greetings{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    display: inline-block;
+    height: 20px;
+    margin-left: 5px;
+    padding: 5px 15px;
+    vertical-align: top;
+}
+#user-greetings h1 {
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: 300;
+    height: 20px;
+    line-height: 20px;
+    margin: 0px;
+    vertical-align: top;
+}
+#user-greetings-text a{
+  color: #3c3c3c;
+}
 #send-message-button{
     background-color: white;
     border: 0;
@@ -213,7 +243,7 @@ html, body {
   max-height: 100%;
   min-height: 70px;
   margin-bottom: 70px;
-  padding: 20px 20px 0px 20px;
+  padding: 20px 20px 10px 20px;
   overflow: hidden auto;
   width: calc(100% - 40px);
 }

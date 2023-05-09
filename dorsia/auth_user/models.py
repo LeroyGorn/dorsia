@@ -14,15 +14,15 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_staff", True)
 
-        if not extra_fields.get('is_superuser'):
-            raise ValueError('Superuser must have is_superuser=True')
+        if not extra_fields.get("is_superuser"):
+            raise ValueError("Superuser must have is_superuser=True")
 
         return self._create_user(email, password, **extra_fields)
 
@@ -50,9 +50,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def __str__(self):
         return self.email

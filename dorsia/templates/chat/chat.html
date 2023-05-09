@@ -2,6 +2,11 @@
 {% load static %}
 
 {% block content %}
+    <div id="chat-bot-greetings">
+        <div id="user-greetings">
+        <h1 id="user-greetings-text">Hello, {{ request.user.first_name }} !  <a href="{% url 'logout' %}">Logout</a></h1>
+        </div>
+    </div>
     <div id="chat-wrapper">
       <div id="chat-bot-mood">
         <div id="chat-bot-mood-icon"></div>
@@ -17,8 +22,8 @@
         <div id="message-input-wrapper">
           <div id="message-input">
               {% csrf_token %}
-                    <input name="message" id="message-input-field" placeholder="Type a message, write shortly. Max symbols 500" maxlength="500"/>
-                    <button id="send-message-button" type="submit"><i class="far fa-arrow-alt-circle-right"></i></button>
+                <input name="message" id="message-input-field" placeholder="Type a message, write shortly. Max symbols 500" maxlength="500"/>
+                <button id="send-message-button" type="submit"><i class="far fa-arrow-alt-circle-right"></i></button>
           </div>
         </div>
         <div id="chat-message-column-wrapper" class="scroll-bar">
@@ -32,4 +37,7 @@
     {{ block.super }}
     <script id="rendered-js" src="{% static "js/chat.js" %}"></script>
     <script src="{% static "js/assistant.js" %}"></script>
+      <script>
+        const user_history = {{ conversation_history|safe }};
+      </script>
 {% endblock %}

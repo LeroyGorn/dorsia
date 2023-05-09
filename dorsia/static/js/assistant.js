@@ -1,8 +1,29 @@
-$(document).ready(function() {
-    $("#send-message-button").click(function() {
+$(window).on("load", function() {
+    function* getMessageGenerator(messages) {
+      let index = 0;
+      while (index < messages.length) {
+        yield messages[index];
+        index++;
+      }
+    }
+    const messageGenerator = getMessageGenerator(user_history);
+
+    for (let i = 0; i < user_history.length; i++) {
+      const message = messageGenerator.next().value;
+      if (i % 2 == 0) {
+          setTimeout(function() {
+            UserQuestionSend(message);
+          }, i * 1000);
+      } else {
+         setTimeout(function() {
+          sendChatbotMessage(message);
+        }, i * 1000);
+      }
+    }
+    function sendMessage() {
         let message = $("#message-input-field").val();
         let csrf_token = $("[name='csrfmiddlewaretoken']").val();
-        let url = "/";
+        let url = "/chat";
         $.ajax({
             type: "POST",
             url: url,
@@ -14,13 +35,20 @@ $(document).ready(function() {
                 const responseText = response.response;
                 UserQuestionSend();
                 sendChatbotMessage(responseText);
-                // Handle the response here
             },
             error: function(response) {
-                console.log(response);
-                UserQuestionSend();
-                // Handle the error here
+                alert("Error processing your request. Please try again later.");
             }
         });
+    }
+
+    $("#send-message-button").click(sendMessage);
+
+    $("#message-input-field").on('keydown', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            sendMessage();
+        }
     });
+
 });

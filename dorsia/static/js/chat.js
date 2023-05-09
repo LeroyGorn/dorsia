@@ -383,8 +383,14 @@ const sendChatbotMessage = (message) => {
   }, 4000)
 }
 
-const sendUserMessage = () => {
-  const text = MESSAGE_INPUT_FIELD.value
+const sendUserMessage = (historyText) => {
+  let text;
+  if (historyText === null) {
+    text = MESSAGE_INPUT_FIELD.value;
+  } else {
+    text = historyText;
+  }
+
   STATE.isUserSendingMessage = true
   addChatMessage(text, false)
   setTimeout(() => {
@@ -393,10 +399,10 @@ const sendUserMessage = () => {
   }, 4000)
 }
 
-const UserQuestionSend = () => {
-  sendUserMessage()
+const UserQuestionSend = (text=null) => {
+  sendUserMessage(text)
   setTimeout(() => {
-    sendChatbotMessage()
+    // sendChatbotMessage()
   }, 4000)
   toggleInput()
   clearInputField()
@@ -410,7 +416,7 @@ const initLetterPool = () => {
 const init = () => {
   setChatbotMood()
   initLetterPool()
-  sendChatbotMessage()
+  // sendChatbotMessage()
   toggleInput()
   setMoodInterval(getRandMoodInterval())
 }
@@ -456,15 +462,6 @@ const setMoodInterval = time => {
     setChatbotMood()
     setMoodInterval(getRandMoodInterval())
   }, time)
-}
-
-MESSAGE_INPUT_FIELD.onkeypress = e => {
-  if(checkIfInputFieldHasVal() && e.key === 'Enter'){
-    removeClass(MESSAGE_INPUT, 'send-enabled')
-    if(canSendMessage()){
-      onEnterPress(e)
-    }
-  }
 }
 
 MESSAGE_INPUT_FIELD.onkeyup = () => {
