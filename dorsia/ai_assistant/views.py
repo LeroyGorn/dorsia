@@ -5,8 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import TemplateView
-from dorsia.settings import DB_DIR
-from dorsia.settings import openai
+from dorsia.settings import DB_DIR, openai, CHROMA_PORT, CHROMA_HOST, CHROMA_IMPLEMENTATION
 from langchain import LLMChain, PromptTemplate
 from langchain.memory import ConversationBufferMemory
 
@@ -27,10 +26,9 @@ class ChatView(TemplateView):
 
         if not docs:
             chroma_client = chromadb.Client(Settings(
-                chroma_api_impl="rest",
-                chroma_server_host="dorsia_container",
-                chroma_server_http_port="8000",
-                persist_directory=DB_DIR
+                chroma_api_impl=CHROMA_IMPLEMENTATION,
+                chroma_server_host=CHROMA_HOST,
+                chroma_server_http_port=CHROMA_PORT
             ))
             user_conversation = chroma_client.get_or_create_collection(name=conversation_id)
             docs = user_conversation.get()["documents"][-20:]
@@ -58,33 +56,32 @@ class ChatResponseView(View):
 
     def post(self, request):
         chroma_client = chromadb.Client(Settings(
-            chroma_api_impl="rest",
-            chroma_server_host="dorsia_container",
-            chroma_server_http_port="8000",
-            persist_directory=DB_DIR
+            chroma_api_impl=CHROMA_IMPLEMENTATION,
+            chroma_server_host=CHROMA_HOST,
+            chroma_server_http_port=CHROMA_PORT
         ))
         question = request.POST.get("message")
         user_id = request.user.id
         conversation_id = f"conversation_history_user_{user_id}"
         user_conversation = chroma_client.get_or_create_collection(name=conversation_id)
+        docs = user_conversation.get()["documents"]
 
         llm_chain = self.configure_ai()
         response = llm_chain.predict(question=question)
 
-        conversation_history = llm_chain.memory.chat_memory.messages
         if response:
             user_conversation.add(
                 documents=[question],
                 metadatas=[{"source": "User"}],
-                ids=[f"User_{len(conversation_history)-1}"],
+                ids=[f"User_{len(docs)}"],
             )
             user_conversation.add(
                 documents=[response],
                 metadatas=[{"source": "AI"}],
-                ids=[f"AI_{len(conversation_history)}"],
+                ids=[f"AI_{len(docs)+1}"],
             )
 
-        docs = user_conversation.get()["documents"][-20:]
+        docs = docs[-20:]
         cache.set(conversation_id, docs, timeout=3600)
 
         chroma_client.persist()

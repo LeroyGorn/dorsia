@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -90,7 +90,9 @@ DATABASES = {
 }
 
 DB_DIR = os.path.join(BASE_DIR, 'chroma')
-
+CHROMA_PORT = os.environ['CHROMA_PORT']
+CHROMA_HOST = os.environ['CHROMA_HOST']
+CHROMA_IMPLEMENTATION = os.environ['CHROMA_IMPLEMENTATION']
 
 openai = ChatOpenAI(temperature=0.2, model_name="gpt-3.5-turbo", openai_api_key=os.environ['OPENAI_API_KEY'])
 
