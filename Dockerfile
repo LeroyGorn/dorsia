@@ -8,15 +8,10 @@ WORKDIR /dorsia
 
 COPY ./dorsia ./dorsia
 
-RUN python -m venv /dorsia/venv
-ENV PATH="/dorsia/venv/bin:$PATH"
-
 COPY requirements.txt ./requirements.txt
 
-RUN /dorsia/venv/bin/pip install --upgrade pip
+RUN pip install --upgrade pip
 
-RUN /dorsia/venv/bin/pip install gunicorn
-
-COPY ./myvenv/lib/python3.10/site-packages/ /dorsia/venv/lib/python3.10/site-packages/
+RUN pip install -r requirements.txt
 
 CMD ["/bin/bash", "-c", "source /dorsia/venv/bin/activate && exec /bin/bash"]

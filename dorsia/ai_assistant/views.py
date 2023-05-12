@@ -34,7 +34,7 @@ class ChatView(TemplateView):
             docs = user_conversation.get()["documents"][-20:]
             cache.set(conversation_id, docs, timeout=3600)
             docs = docs if docs else ['']
-            del chroma_client
+
         context["conversation_history"] = docs
         return context
 
@@ -81,8 +81,6 @@ class ChatResponseView(View):
                 ids=[f"AI_{len(docs)+1}"],
             )
 
-        docs = docs[-20:]
+        docs = user_conversation.get()["documents"][-20:]
         cache.set(conversation_id, docs, timeout=3600)
-
-        del chroma_client
         return JsonResponse({"response": response})

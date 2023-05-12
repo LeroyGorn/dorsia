@@ -89,7 +89,6 @@ DATABASES = {
     }
 }
 
-DB_DIR = os.path.join(BASE_DIR, 'chroma')
 CHROMA_PORT = os.environ['CHROMA_PORT']
 CHROMA_HOST = os.environ['CHROMA_HOST']
 CHROMA_IMPLEMENTATION = os.environ['CHROMA_IMPLEMENTATION']
@@ -134,8 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'auth_user.CustomUser'
 
