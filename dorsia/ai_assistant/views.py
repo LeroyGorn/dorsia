@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import TemplateView
-from dorsia.settings import DB_DIR, openai, CHROMA_PORT, CHROMA_HOST, CHROMA_IMPLEMENTATION
+from dorsia.settings import openai, CHROMA_PORT, CHROMA_HOST, CHROMA_IMPLEMENTATION
 from langchain import LLMChain, PromptTemplate
 from langchain.memory import ConversationBufferMemory
 
@@ -34,7 +34,7 @@ class ChatView(TemplateView):
             docs = user_conversation.get()["documents"][-20:]
             cache.set(conversation_id, docs, timeout=3600)
             docs = docs if docs else ['']
-
+            del chroma_client
         context["conversation_history"] = docs
         return context
 
@@ -84,5 +84,5 @@ class ChatResponseView(View):
         docs = docs[-20:]
         cache.set(conversation_id, docs, timeout=3600)
 
-        chroma_client.persist()
+        del chroma_client
         return JsonResponse({"response": response})
